@@ -1,24 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="assessmentstyle.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+      background-color: #f0f0f0;
+    }
+
+    .colorBar {
+      width: 30px;
+      height: 150px;
+      margin: 0 10px;
+      background-color: #3498db;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    #colorContainer {
+      display: flex;
+      height: 400px;
+      width:1100px;
+    }
+
+    button {
+      font-size: 16px;
+      margin: 10px;
+      padding: 8px 16px;
+      cursor: pointer;
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
-    <div class="box">
-         <div class="box1"></div>
-         <div class="box2"></div>
-         <div class="box3"></div>
-         <div class="box4"></div>
-         <div class="box5"></div>
-    </div>
-    <br/><br/> <br/><br/>
-    <div class="button">
-        <button class="start">Start</button>
-        <button class="reset">Reset</button>
-        <button class="stop">Stop</button>
-    </div>
+    <div id="colorContainer" style="background-color: rgb(13, 13, 28);">
+    <div class="colorBar" style="background-color: blueviolet; height: 350px; width: 200px;" onmouseover="transformDown(this)"></div>
+    <div class="colorBar" style="background-color: rgb(114, 51, 72) ; height: 350px; width: 200px;" onmouseover="transformUpDown(this)"></div>
+    <div class="colorBar" style="background-color: rgb(217, 149, 171); height: 350px; width: 200px;" onmouseover="transformUpDown(this)"></div>
+    <div class="colorBar" style="background-color: orangered; height: 350px; width: 200px;" onmouseover="transformUpDown(this)"></div>
+    <div class="colorBar" style="background-color: yellow; height: 350px; width: 200px;" onmouseover="transformUpDown(this)"></div>
+  </div>
+  <div style="margin-top: 500px; margin-left: -600px;">
+  <button onmousedown="startAnimation()" onmouseup="stopAnimation()">Start</button>
+  <button onclick="resetColor()">Reset</button>
+  <button onclick="stopAnimation()">Stop</button>
+  </div>
+  <button onmouseover="startAnimation()" onmouseout="resetPosition()">Start</button>
+
+  <script>
+    let animationStarted = false;
+
+    function startAnimation() {
+      if (!animationStarted) {
+        const colorBars = document.querySelectorAll('.colorBar');
+        colorBars.forEach((bar, index) => {
+          bar.style.transition = `transform 0.3s ease-in-out ${index * 0.1}s`;
+          bar.style.transform = 'translateY(50px)';
+        });
+        animationStarted = true;
+      }
+    }
+
+    function resetPosition() {
+      const colorBars = document.querySelectorAll('.colorBar');
+      colorBars.forEach((bar) => {
+        bar.style.transition = 'none';
+        bar.style.transform = 'translateY(0)';
+      });
+      animationStarted = false;
+    }
+
+    function resetColor() {
+      const colorBars = document.querySelectorAll('.colorBar');
+      colorBars.forEach((bar) => {
+        bar.style.transform = 'scale(1)';
+      });
+    }
+
+    function stopAnimation() {
+      clearInterval(animationInterval);
+    }
+  </script>
 </body>
 </html>
